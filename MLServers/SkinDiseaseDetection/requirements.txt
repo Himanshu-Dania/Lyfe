@@ -1,0 +1,9 @@
+gevent==24.2.1     
+gunicorn==23.0.0   
+Flask==3.0.3
+flask-cors==4.0.1
+numpy==1.26.0
+Pillow==10.4.0
+keras==2.15.0
+tensorflow==2.15.0
+wheel

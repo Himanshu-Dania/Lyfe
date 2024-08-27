@@ -1,0 +1,109 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Use grid layout with auto-fill */
+    gap: 20px; /* Add gap between cards */
+}
+.maincontainer{
+    padding-left: 10%;
+}
+
+.container {
+    width: 82%; /* Set width to 100% to fill the grid cell */
+    height: 100%;
+    box-shadow: 2px 5px 27px -8px rgba(0, 0, 0, 0.15);
+    transition: 150ms;
+    border-radius: 12px;
+    padding-right: 20px;
+    background-color: #e8f2f9;
+    
+}
+
+/* Adjust other styles as needed */
+
+
+.wrapper > .imgContainer > img{
+    object-fit: cover;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.blogData{
+    margin-left: 1%;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between;
+    align-items: center;
+    flex-grow:inherit ;
+    
+}
+
+.blogData > .left > h3{
+    font-size: 1.75rem; /* Adjust font size for smaller screens */
+    font-weight: bold;
+    margin-top: 1rem; /* Adjust margins for smaller screens */
+    margin-bottom: 0.75rem; /* Adjust margins for smaller screens */
+}
+
+.blogData > .left > p{
+   color: #666;
+   margin-bottom: 1rem; /* Adjust margins for smaller screens */
+}
+
+.blogData > .left > span{
+    margin-top: 1rem; /* Adjust margins for smaller screens */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem; /* Adjust font size for smaller screens */
+}
+
+.blogData > .right{
+    font-size: 1.125rem; /* Adjust font size for smaller screens */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+/* CSS for the "Read More" link */
+.readMore {
+    color: #007bff; /* Blue color */
+    cursor: pointer; /* Show pointer cursor on hover */
+    margin-top: 1rem; /* Add margin to create space between paragraph and link */
+  }
+
+  .readMore:hover {
+    color: #0056b3; /* Darker blue color on hover */
+  }
+
+/* Media query for smaller screens */
+@media (max-width: 700px) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding-right: 3px;
+    padding-left: 5px; /* Adjust maximum width for smaller screens */
+  }
+.maincontainer{
+    padding-left: 0;
+}
+  .wrapper > .imgContainer > img {
+    border-radius: 12px; /* Adjust border radius for smaller screens */
+  }
+
+  .blogData > .left > h3 {
+    font-size: 1.5rem; /* Adjust font size for smaller screens */
+  }
+
+  .blogData > .left > span {
+    margin-top: 0.5rem; /* Adjust margins for smaller screens */
+  }
+  .wrapper > .imgContainer > img{
+    object-fit: cover;
+    border-radius: 3px;
+    width: 100%;
+    margin: 0 auto;
+}
+}

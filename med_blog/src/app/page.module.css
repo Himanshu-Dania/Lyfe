@@ -1,0 +1,25 @@
+.container{
+  min-height: calc(100vh - 60px);
+  width: 100%;
+}
+
+.wrapper{
+  height: 100%;
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7.5rem;
+}
+
+.container > h2{
+  color: #113551;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 1.75rem;
+  font-weight: 700;
+  padding-top: 20px;
+  padding-left: 20px;
+}

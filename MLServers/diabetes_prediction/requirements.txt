@@ -1,0 +1,8 @@
+Flask==3.0.3
+Flask-Cors==4.0.1
+lightgbm==4.5.0
+numpy==1.26.0
+pandas==2.2.2
+pydantic==2.8.2
+pydantic_core==2.20.1
+scikit-learn==1.5.1

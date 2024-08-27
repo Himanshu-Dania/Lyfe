@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jiva</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  /* Styles for the chat interface */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* background-color: #f8f9fa; */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("bgchatbot.jpg");
+  }
+
+  #chat-container {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #chat-history {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  .user-message, .bot-message {
+    max-width: 70%;
+    word-wrap: break-word;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .user-message {
+    align-self: flex-end;
+    background-color:#5EABFC;
+    color: #fff;
+  }
+
+  .bot-message {
+    align-self: flex-start;
+    background-color: #fff;
+    color: #333;
+  }
+
+  form {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+  }
+
+  input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color:#1a74d5 ;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  #loader {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Dark mode styles */
+  .dark-mode {
+    background-color: #333;
+    color: #fff;
+  }
+
+  #darkModeToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div id="chat-container">
+ 
+  <!-- Bot logo or header -->
+  <h2 style="text-align: center; color: #269dbb; object-fit: contain;"> <img src = "botlogo.png" alt = "img"   width="240px" ></h2>
+  <hr style="width: 400px;">
+  <!-- Chat history display -->
+  <div id="chat-history"></div>
+  
+  <!-- User input form -->
+  <form id="chat-form">
+    <input type="text" id="user-input" placeholder="How can we help you?">
+    <button class="fa fa-telegram" type="submit" style="font-size: 24px; border-radius: 50%; width: 40px; height: 40px;"></button>
+  </form>
+</div>
+
+<!-- Loader image for indicating message sending/loading -->
+<div id="loader">
+  <img src="loader.gif" width="150px" alt="Loading...">
+</div>
+
+<!-- Dark mode toggle button -->
+<button id="darkModeToggle" onclick="toggleDarkMode()">&#9728;</button>
+
+<script>
+  // JavaScript code for chat functionality
+  const chatHistory = document.getElementById('chat-history');
+  const userInput = document.getElementById('user-input');
+  const form = document.getElementById('chat-form');
+
+  // Function to send user message to server and receive bot response
+  async function sendMessage() {
+    const userMessage = userInput.value;
+    userInput.value = ''; // Clear input field
+    try {
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userInput: userMessage }),
+      });
+
+      const data = await response.json();
+      const botMessage = data.response;
+
+      // Parse the bot message and add appropriate HTML tags
+      const formattedMessage = formatBotMessage(botMessage);
+
+      // Add formatted bot message to the chat history
+      chatHistory.innerHTML += `<div class="user-message">${userMessage}</div>`;
+      chatHistory.innerHTML += `<div class="bot-message">${formattedMessage}</div>`;
+
+      // Scroll to the bottom of the chat history
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle errors gracefully, e.g., display an error message to the user
+    }
+  }
+
+  // Function to format the bot message with appropriate HTML tags
+  function formatBotMessage(message) {
+    // Split the message into sentences
+    const sentences = message.split('. ');
+
+    // Map each sentence to an HTML element
+    const formattedSentences = sentences.map(sentence => `<p>${sentence.trim()}.</p>`);
+
+    // Join the formatted sentences into a single string
+    return formattedSentences.join('');
+  }
+
+  // Event listener for form submission
+  form.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent form submission
+    const loader = document.getElementById('loader');
+    loader.style.display = 'block'; // Show the loader
+    sendMessage().finally(() => {
+      loader.style.display = 'none'; // Hide the loader after the message is sent
+    });
+  });
+
+  // Function to toggle dark mode
+  function toggleDarkMode() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');
+  }
+</script>
+</body>
+</html>

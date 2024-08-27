@@ -1,0 +1,30 @@
+.container {
+  margin-top: 10vh;
+  position: relative;
+  cursor: pointer;
+}
+.backOval {
+  position: absolute;
+  left: -3rem;
+}
+
+.serviceList {
+  justify-content: space-between;
+}
+.servicesDes {
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  margin-top: 30px;
+  line-height: 1.6rem;
+  font-weight: 300;
+}
+@media only screen and (max-width: 600px) {
+  .container {
+    align-items: center;
+    justify-content: center;
+  }
+  .serviceList {
+    align-items: center;
+  }
+}

@@ -1,0 +1,45 @@
+.heroContainer {
+	margin-top: 2rem;
+	padding-bottom: 50px;
+	justify-content: space-between;
+}
+.heroInfo {
+	width: 40%;
+}
+.heroHeading {
+	font-size: 3rem;
+}
+.heroDes {
+	margin: 2rem 0;
+	width: 90%;
+	font-size: 1.1rem;
+	font-weight: 300;
+	line-height: 1.7rem;
+}
+.heroImageContainer {
+	width: 55%;
+}
+.dotPattern {
+	position: absolute;
+	top: 10rem;
+	left: 0;
+}
+@media screen and (max-width: 600px) {
+	.heroInfo,
+	.heroImageContainer {
+		width: 100%;
+		align-items: center;
+		margin: auto;
+		text-align: center;
+	}
+	.heroContainer {
+		margin-top: 0rem;
+	}
+	.heroImageContainer {
+		margin-top: 15px;
+	}
+	.heroDes {
+		margin: 1rem 0;
+		width: 100%;
+	}
+}

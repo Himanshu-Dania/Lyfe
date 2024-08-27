@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--From https://codepen.io/frytyler/pen/EGdtg-->
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>ML API</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico"
+      rel="stylesheet"
+      type="i/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Arimo"
+      rel="stylesheet"
+      type="i/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Hind:300"
+      rel="stylesheet"
+      type="i/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"
+      rel="stylesheet"
+      type="i/css"
+    />
+    <link rel="stylesheet" href="heart_disease/static/css/style.css" />
+  </head>
+
+  <body>
+    <div class="login">
+      <h1>Checking if a person has diabetes or not</h1>
+
+      <!-- Main Input For Receiving Query to our ML -->
+      <form action="/predict" method="post">
+        <input
+          type="number"
+          name="Age"
+          placeholder="Age"
+          required="required"
+        /><br />
+
+        <label for="Gender">Gender:</label><br />
+        <select name="Gender" required="required">
+          <option value="1">Male</option>
+          <option value="0">Female</option>
+        </select><br />
+
+        <label for="Polyuria">Polyuria:</label><br />
+        <select name="Polyuria" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="Polydipsia">Polydipsia:</label><br />
+        <select name="Polydipsia" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="suddenweightloss">Sudden Weight Loss:</label><br />
+        <select name="suddenweightloss" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="weakness">Weakness:</label><br />
+        <select name="weakness" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="Polyphagia">Polyphagia:</label><br />
+        <select name="Polyphagia" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="Genitalthrush">Genital Thrush:</label><br />
+        <select name="Genitalthrush" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="visualblurring">Visual Blurring:</label><br />
+        <select name="visualblurring" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="Itching">Itching:</label><br />
+        <select name="Itching" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="Irritability">Irritability:</label><br />
+        <select name="Irritability" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="delayedhealing">Delayed Healing:</label><br />
+        <select name="delayedhealing" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="partialparesis">Partial Paresis:</label><br />
+        <select name="partialparesis" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="musclestiffness">Muscle Stiffness:</label><br />
+        <select name="musclestiffness" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="Alopecia">Alopecia:</label><br />
+        <select name="Alopecia" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <label for="Obesity">Obesity:</label><br />
+        <select name="Obesity" required="required">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select><br />
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">
+          Predict
+        </button>
+      </form>
+
+      <br /><br />
+    </div>
+    {{prediction_text}}
+  </body>
+</html>
