@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>ML API</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Hind:300" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="heart_disease/static/css/style.css" />
+</head>
+
+<body>
+    <div class="login">
+        <h1>Checking if a person has heart disease or not</h1>
+
+        <!-- Main Input For Receiving Query to our ML -->
+        <form action="/predict" method="post">
+            <input type="number" name="Age" placeholder="Age" required="required" /><br />
+            <input type="number" name="Sex" placeholder="Sex" required="required" /><br />
+            <input type="number" name="RestingBP" placeholder="RestingBP" required="required" /><br />
+            <input type="number" name="Cholesterol" placeholder="Cholesterol" required="required" /><br />
+            <input type="number" name="FastingBS" placeholder="FastingBS" required="required" /><br />
+            <input type="number" name="MaxHR" placeholder="MaxHR" required="required" /><br />
+            <input type="number" name="ExerciseAngina" placeholder="Exercise Angina (0 or 1)" required="required" /><br />
+            <input type="number" name="ChestPainType_0" placeholder="ChestPainType_0 (0 or 1)" required="required" /><br />
+            <input type="number" name="ChestPainType_1" placeholder="ChestPainType_1 (0 or 1)" required="required" /><br />
+            <input type="number" name="ChestPainType_2" placeholder="ChestPainType_2 (0 or 1)" required="required" /><br />
+            <input type="number" name="ChestPainType_3" placeholder="ChestPainType_3 (0 or 1)" required="required" /><br />
+
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+        </form>
+
+        <br />
+        <br />
+    </div>
+    <div>
+        {{ prediction_text }}
+    </div>
+</body>
+</html>
