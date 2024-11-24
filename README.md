@@ -34,10 +34,10 @@ Actinic keratosis
 
 A Light Gradient Boosting Classification Model deployed using Flask that takes the symptoms a user is feeling out of a list of 128 symptoms and classifies them into one of 42 diseases and returns along the description and precautions to take for the disease. The user can also refer to our LyfeBot for further information.
 
-### Gemini Powered Health ChatBot
+### GPT 4 Powered Health ChatBot
 
 LyfeBot is a chatbot that can answer health related queries.
-It is built on the newly launched Gemini Large Language Model from Google which is a Generative Artificial Intelligence.
+It is built on the GPT4o Model.
 It has been trained on health data and is capable of answering user questions about health management and also our app.
 
 ### Epidemic Warning System
