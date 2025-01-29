@@ -1,17 +1,17 @@
 import SignInForm from '@/components/form/signin-form'
 
 interface SignInPageProps {
-  searchParams: {
-    callbackUrl: string
+  searchParams?: {
+    callbackUrl?: string
   }
 }
-const SignInPage = ({
-  searchParams: { callbackUrl }
-}: SignInPageProps) => {
-  // console.log(callbackUrl)
+
+const SignInPage = ({ searchParams }: SignInPageProps) => {
+  const callbackUrl = searchParams?.callbackUrl || "/"; // Provide default if undefined
+
   return (
     <div className="w-full">
-      <SignInForm callbackUrl={callbackUrl || "/"} />
+      <SignInForm callbackUrl={callbackUrl} />
     </div>
   )
 }

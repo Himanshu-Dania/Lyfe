@@ -40,7 +40,7 @@ const data = {
       title: "Skin Disease Detection",
       description:
         "Skin Disease Detection employs advanced image analysis techniques to swiftly and accurately identify various dermatological conditions, facilitating prompt diagnosis and treatment.",
-      url: "http://192.168.58.213:3000/",
+      url: "https://skindiseasedetection-eydcfef7dycfchbu.westindia-01.azurewebsites.net/",
     },
     {
       id: 5,

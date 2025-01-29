@@ -9,127 +9,80 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  Select,
-} from "@/components/ui/select";
-import Formf from "../Formf";
+} from "@/components/ui/form"; // Adjust the import path as necessary
+import { Button } from "@/components/ui/button"; // Adjust the import path as necessary
 
 const formSchema = z.object({
-  Age: z.number().min(0).max(99), // Restricting to a single digit
-  Gender_Female: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Gender_Male: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Polyuria_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Polyuria_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Polydipsia_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Polydipsia_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  suddenweightloss_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  suddenweightloss_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  weakness_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  weakness_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Polyphagia_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Polyphagia_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Genitalthrush_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Genitalthrush_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  visualblurring_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  visualblurring_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Itching_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Itching_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Irritability_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Irritability_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  delayedhealing_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  delayedhealing_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  partialparesis_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  partialparesis_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  musclestiffness_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  musclestiffness_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Alopecia_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Alopecia_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Obesity_No: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
-  Obesity_Yes: z.number().min(0).max(1), // Assuming only 0 or 1 are valid // Assuming only 0 or 1 are valid
+  Age: z.number().min(0).max(99),
+  Gender: z.boolean(), // Added Gender as a boolean
+  Polyuria: z.boolean(),
+  Polydipsia: z.boolean(),
+  suddenweightloss: z.boolean(),
+  weakness: z.boolean(),
+  Polyphagia: z.boolean(),
+  Genitalthrush: z.boolean(),
+  visualblurring: z.boolean(),
+  Itching: z.boolean(),
+  Irritability: z.boolean(),
+  delayedhealing: z.boolean(),
+  partialparesis: z.boolean(),
+  musclestiffness: z.boolean(),
+  Alopecia: z.boolean(),
+  Obesity: z.boolean(),
 });
+
+type FormFieldType = {
+  label: string;
+  name: keyof z.infer<typeof formSchema>;
+  type: "boolean";
+};
+
+const formFields: FormFieldType[] = [
+  { label: "Polyuria", name: "Polyuria", type: "boolean" },
+  { label: "Polydipsia", name: "Polydipsia", type: "boolean" },
+  { label: "Sudden Weight Loss", name: "suddenweightloss", type: "boolean" },
+  { label: "Weakness", name: "weakness", type: "boolean" },
+  { label: "Polyphagia", name: "Polyphagia", type: "boolean" },
+  { label: "Genital Thrush", name: "Genitalthrush", type: "boolean" },
+  { label: "Visual Blurring", name: "visualblurring", type: "boolean" },
+  { label: "Itching", name: "Itching", type: "boolean" },
+  { label: "Irritability", name: "Irritability", type: "boolean" },
+  { label: "Delayed Healing", name: "delayedhealing", type: "boolean" },
+  { label: "Partial Paresis", name: "partialparesis", type: "boolean" },
+  { label: "Muscle Stiffness", name: "musclestiffness", type: "boolean" },
+  { label: "Alopecia", name: "Alopecia", type: "boolean" },
+  { label: "Obesity", name: "Obesity", type: "boolean" },
+];
 
 export default function DibForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   Age: 0,
-    //   Gender_Female: 1,
-    //   Gender_Male: 0,
-    //   Polyuria_No: 1,
-    //   Polyuria_Yes: 0,
-    //   Polydipsia_No: 1,
-    //   Polydipsia_Yes: 0,
-    //   suddenweightloss_No: 1,
-    //   suddenweightloss_Yes: 0,
-    //   weakness_No: 1,
-    //   weakness_Yes: 0,
-    //   Polyphagia_No: 1,
-    //   Polyphagia_Yes: 0,
-    //   Genitalthrush_No: 1,
-    //   Genitalthrush_Yes: 0,
-    //   visualblurring_No: 1,
-    //   visualblurring_Yes: 0,
-    //   Itching_No: 1,
-    //   Itching_Yes: 0,
-    //   Irritability_No: 1,
-    //   Irritability_Yes: 0,
-    //   delayedhealing_No: 1,
-    //   delayedhealing_Yes: 0,
-    //   partialparesis_No: 1,
-    //   partialparesis_Yes: 0,
-    //   musclestiffness_No: 1,
-    //   musclestiffness_Yes: 0,
-    //   Alopecia_No: 1,
-    //   Alopecia_Yes: 0,
-    //   Obesity_No: 1,
-    //   Obesity_Yes: 0,
-    // },
   });
-  const [predictData, setpredictData] = useState<any>(null);
+  const [predictData, setPredictData] = useState<any>(null);
 
-  const HandleSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
     const formData = {
       Age: values.Age,
-      Gender_Female: values.Gender_Female,
-      Gender_Male: values.Gender_Male,
-      Polyuria_No: values.Polyphagia_No,
-      Polyuria_Yes: values.Polydipsia_Yes,
-      Polydipsia_No: values.Polydipsia_No,
-      Polydipsia_Yes: values.Polydipsia_Yes,
-      suddenweightloss_No: values.suddenweightloss_No,
-      suddenweightloss_Yes: values.suddenweightloss_Yes,
-      weakness_No: values.weakness_No,
-      weakness_Yes: values.weakness_Yes,
-      Polyphagia_No: values.Polydipsia_No,
-      Polyphagia_Yes: values.Polydipsia_Yes,
-      Genitalthrush_No: values.Genitalthrush_No,
-      Genitalthrush_Yes: values.Genitalthrush_Yes,
-      visualblurring_No: values.visualblurring_No,
-      visualblurring_Yes: values.visualblurring_Yes,
-      Itching_No: values.Itching_No,
-      Itching_Yes: values.Itching_Yes,
-      Irritability_No: values.Irritability_No,
-      Irritability_Yes: values.Irritability_Yes,
-      delayedhealing_No: values.delayedhealing_No,
-      delayedhealing_Yes: values.delayedhealing_Yes,
-      partialparesis_No: values.partialparesis_No,
-      partialparesis_Yes: values.partialparesis_Yes,
-      musclestiffness_No: values.musclestiffness_No,
-      musclestiffness_Yes: values.musclestiffness_Yes,
-      Alopecia_No: values.musclestiffness_Yes,
-      Alopecia_Yes: values.Alopecia_Yes,
-      Obesity_No: values.Obesity_No,
-      Obesity_Yes: values.Obesity_Yes,
+      Gender: values.Gender, // Include Gender in the form data
+      Polyuria: values.Polyuria,
+      Polydipsia: values.Polydipsia,
+      suddenweightloss: values.suddenweightloss,
+      weakness: values.weakness,
+      Polyphagia: values.Polyphagia,
+      Genitalthrush: values.Genitalthrush,
+      visualblurring: values.visualblurring,
+      Itching: values.Itching,
+      Irritability: values.Irritability,
+      delayedhealing: values.delayedhealing,
+      partialparesis: values.partialparesis,
+      musclestiffness: values.musclestiffness,
+      Alopecia: values.Alopecia,
+      Obesity: values.Obesity,
     };
-    console.log(formData);
-    fetch("http://127.0.0.1:7000/predict_api", {
+
+    console.log("Form Data Submitted:", formData); // Log the form data
+
+    fetch("https://diabetesdetection-g7bgascsdgbjavd4.westindia-01.azurewebsites.net/predict_api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -143,13 +96,13 @@ export default function DibForm() {
         return response.json();
       })
       .then((data) => {
-        const predictionProbability = data[0]?.prediction_probability; // Use optional chaining to handle potential undefined values
-        const prediction = data[1]?.prediction;
-        console.log(predictionProbability);
-        // Update state to display the response data
-        setpredictData({
-          predictionProbability: predictionProbability,
-          prediction: prediction,
+        console.log("API Response Data:", data); // Log the response data
+        const predictionProbability = data.prediction_probability[0];
+        const prediction = data.prediction_probability[1];
+
+        setPredictData({
+          predictionProbability : predictionProbability,
+          prediction : prediction,
         });
         console.log("Success:", data);
       })
@@ -170,14 +123,17 @@ export default function DibForm() {
           <p className="mb-1">
             Prediction:{" "}
             {predictData.prediction === 1
-              ? "There are chances for heart condition"
-              : "The chances are slim (though do consult a doctor in case of any numb feeling or prelonged thirst.)"}
+              ? "There are chances for diabetes."
+              : "The chances are slim (though do consult a doctor in case of any symptoms)."}
           </p>
           <p className="mb-1">
             Prediction Probability:{" "}
+            {/* {Array.isArray(predictData.predictionProbability) && predictData.predictionProbability[0]
+              ? (predictData.predictionProbability[0] * 100).toFixed(2)
+              : "N/A"}% */}
             {predictData.prediction === 1
-              ? (predictData.predictionProbability[1] * 100).toFixed(2)
-              : (predictData.predictionProbability[0] * 100).toFixed(2)}{" "}
+              ? (predictData.predictionProbability*100).toFixed(2)
+              : (predictData.predictionProbability * 100).toFixed(2).toString()}{" "}
             %
           </p>
         </div>
@@ -185,65 +141,49 @@ export default function DibForm() {
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(HandleSubmit)}
-          className=" w-full stretch gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="w-full stretch gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         >
+          {/* Separate age input */}
           <FormField
             control={form.control}
             name="Age"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Input Age"
-                      type="number"
-                      {...field}
-                      min="0"
-                      max="99"
-                      onChange={(e) =>
-                        form.setValue("Age", parseInt(e.target.value))
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Age</FormLabel>
+                <FormControl>
+                  <input
+                    placeholder="Input Age"
+                    type="number"
+                    {...field}
+                    className="border rounded px-2 py-1"
+                    onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
+
+          {/* Gender field */}
           <FormField
             control={form.control}
-            name="Gender_Male"
+            name="Gender"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <div className="flex gap-4">
                   <Button
                     type="button"
-                    onClick={() => {
-                      form.setValue("Gender_Male", 1);
-                      form.setValue("Gender_Female", 0);
-                    }}
-                    className={`${
-                      form.getValues("Gender_Male") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
+                    onClick={() => field.onChange(true)}
+                    className={field.value === true ? "bg-blue-500" : "bg-gray-300"}
                   >
                     Male
                   </Button>
                   <Button
                     type="button"
-                    onClick={() => {
-                      form.setValue("Gender_Male", 0);
-                      form.setValue("Gender_Female", 1);
-                    }}
-                    className={`${
-                      form.getValues("Gender_Female") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
+                    onClick={() => field.onChange(false)}
+                    className={field.value === false ? "bg-blue-500" : "bg-gray-300"}
                   >
                     Female
                   </Button>
@@ -252,568 +192,38 @@ export default function DibForm() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="Alopecia_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Alopecia</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Alopecia_Yes", 1);
-                      form.setValue("Alopecia_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Alopecia_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Alopecia_Yes", 0);
-                      form.setValue("Alopecia_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Alopecia_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Polyuria_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Polyuria</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Polyuria_Yes", 1);
-                      form.setValue("Polyuria_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Polyuria_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Polyuria_Yes", 0);
-                      form.setValue("Polyuria_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Polyuria_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Polydipsia_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Polydipisa</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Polydipsia_Yes", 1);
-                      form.setValue("Polydipsia_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Polydipsia_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Polydipsia_Yes", 0);
-                      form.setValue("Polydipsia_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Polydipsia_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="suddenweightloss_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sudden Weight Loss?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("suddenweightloss_Yes", 1);
-                      form.setValue("suddenweightloss_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("suddenweightloss_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("suddenweightloss_Yes", 0);
-                      form.setValue("suddenweightloss_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("suddenweightloss_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="weakness_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Weakness?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("weakness_Yes", 1);
-                      form.setValue("weakness_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("weakness_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("weakness_Yes", 0);
-                      form.setValue("weakness_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("weakness_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Polyphagia_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Polyphagia</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Polyphagia_Yes", 1);
-                      form.setValue("Polyphagia_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Polyphagia_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Polyphagia_Yes", 0);
-                      form.setValue("Polyphagia_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Polyphagia_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Genitalthrush_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Genitial thrust?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Genitalthrush_Yes", 1);
-                      form.setValue("Genitalthrush_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Genitalthrush_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Genitalthrush_Yes", 0);
-                      form.setValue("Genitalthrush_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Genitalthrush_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Itching_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Itching?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Itching_Yes", 1);
-                      form.setValue("Itching_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Itching_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Itching_Yes", 0);
-                      form.setValue("Itching_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Itching_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Irritability_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Irritability?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Irritability_Yes", 1);
-                      form.setValue("Irritability_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Irritability_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Irritability_Yes", 0);
-                      form.setValue("Irritability_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Irritability_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="visualblurring_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Visual Bluring?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("visualblurring_Yes", 1);
-                      form.setValue("visualblurring_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("visualblurring_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("visualblurring_Yes", 0);
-                      form.setValue("visualblurring_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("visualblurring_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="delayedhealing_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Delayed Healing?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("delayedhealing_Yes", 1);
-                      form.setValue("delayedhealing_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("delayedhealing_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("delayedhealing_Yes", 0);
-                      form.setValue("delayedhealing_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("delayedhealing_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="partialparesis_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Partial Paresis?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("partialparesis_Yes", 1);
-                      form.setValue("partialparesis_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("partialparesis_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("partialparesis_Yes", 0);
-                      form.setValue("partialparesis_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("partialparesis_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="musclestiffness_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Muscle Stiffness?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("musclestiffness_Yes", 1);
-                      form.setValue("musclestiffness_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("musclestiffness_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("musclestiffness_Yes", 0);
-                      form.setValue("musclestiffness_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("musclestiffness_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Obesity_Yes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Obesity?</FormLabel>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Obesity_Yes", 1);
-                      form.setValue("Obesity_No", 0);
-                    }}
-                    className={`${
-                      form.getValues("Obesity_Yes") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      form.setValue("Obesity_Yes", 0);
-                      form.setValue("Obesity_No", 1);
-                    }}
-                    className={`${
-                      form.getValues("Obesity_No") === 1
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    No
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
-          <Button type="submit" className="w-full">
+          {/* Render boolean fields */}
+          {formFields.map(({ label, name }) => (
+            <FormField
+              key={name}
+              control={form.control}
+              name={name}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{label}</FormLabel>
+                  <div className="flex gap-4">
+                    <Button
+                      type="button"
+                      onClick={() => field.onChange(true)}
+                      className={field.value === true ? "bg-blue-500" : "bg-gray-300"}
+                    >
+                      Yes
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => field.onChange(false)}
+                      className={field.value === false ? "bg-blue-500" : "bg-gray-300"}
+                    >
+                      No
+                    </Button>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+          <Button type="submit" className="col-span-full mt-4">
             Submit
           </Button>
         </form>

@@ -173,6 +173,9 @@
 
 <button id="darkModeToggle" onclick="toggleDarkMode()">&#9728;</button>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+
 <script>
 const chatHistory = document.getElementById('chat-history');
 const userInput = document.getElementById('user-input');
@@ -181,12 +184,20 @@ const loader = document.getElementById('loader');
 const submitButton = form.querySelector('button[type="submit"]');
 
 function addMessage(message, isUser = false) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = isUser ? 'user-message' : 'bot-message';
-    messageDiv.textContent = message;
-    chatHistory.appendChild(messageDiv);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
+  const messageDiv = document.createElement('div');
+  messageDiv.className = isUser ? 'user-message' : 'bot-message';
+
+  if (!isUser) {
+      // Convert Markdown to HTML for bot messages
+      messageDiv.innerHTML = marked.parse(message);
+  } else {
+      messageDiv.textContent = message; // User messages don't need Markdown
+  }
+
+  chatHistory.appendChild(messageDiv);
+  chatHistory.scrollTop = chatHistory.scrollHeight;
 }
+
 
 function addErrorMessage(error) {
     const errorDiv = document.createElement('div');

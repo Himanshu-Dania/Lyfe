@@ -30,6 +30,7 @@ const formSchema = z.object({
   Age: z.number().min(0).max(99), // Restricting to a single digit
   Sex: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
   RestingBP: z.number().min(0),
+  Cholesterol : z.number().min(0),
   FastingBS: z.number().min(0),
   MaxHR: z.number().min(0),
   ExerciseAngina: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
@@ -68,6 +69,7 @@ export default function HeartForm() {
       Age: 0,
       Sex: 0,
       RestingBP: 0,
+      Cholesterol : 0,
       FastingBS: 0,
       MaxHR: 0,
       ExerciseAngina: 0,
@@ -78,11 +80,12 @@ export default function HeartForm() {
     },
   });
 
-  const HandleSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
     const formData = {
       Age: values.Age,
       Sex: values.Sex,
       RestingBP: values.RestingBP,
+      Cholesterol : values.Cholesterol,
       FastingBS: values.FastingBS,
       MaxHR: values.MaxHR,
       ExerciseAngina: values.ExerciseAngina,
@@ -91,34 +94,42 @@ export default function HeartForm() {
       ChestPainType_2: values.ChestPainType_2,
       ChestPainType_3: values.ChestPainType_3,
     };
-
-    fetch("http://127.0.0.1:5000/predict_api", {
+    console.log(formData)
+    fetch("https://heartdiseasedetection-akg2bjf0gnd9ewfp.southeastasia-01.azurewebsites.net/predict_api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     })
+    
       .then((response) => {
         if (!response.ok) {
+          console.log(response)
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Success:", data);
-
-        const predictionProbability = data[0]?.prediction_probability; // Use optional chaining to handle potential undefined values
-        const prediction = data[1]?.prediction;
-        console.log(predictionProbability);
+        console.log( data);
+    
+        // Extract prediction_probability and prediction from the response
+        const predictionProbability = data.prediction_probability[1]; // Using index [1] to get the second probability value
+        const prediction = data.prediction_probability[0]; // Directly extracting prediction
+    
+        console.log("Prediction Probability:", predictionProbability);
+        console.log("Prediction:", prediction);
+    
+        // Set the data into state
         setpredictData({
-          predictionProbability: predictionProbability,
-          prediction: prediction,
+            predictionProbability: predictionProbability,
+            prediction: prediction,
         });
-      })
-      .catch((error) => {
+    })
+    .catch((error) => {
         console.error("Error:", error);
-      });
+    });
+    
   };
 
   return (
@@ -139,15 +150,15 @@ export default function HeartForm() {
           <p className="mb-1">
             Prediction Probability:{" "}
             {predictData.prediction === 1
-              ? (predictData.predictionProbability[1] * 100).toFixed(2)
-              : (predictData.predictionProbability[0] * 100).toFixed(2)}{" "}
+              ? (predictData.predictionProbability*100).toFixed(2)
+              : (predictData.predictionProbability * 100).toFixed(2).toString()}{" "}
             %
           </p>
         </div>
       )}
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(HandleSubmit)}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className="w-full stretch gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         >
           {/* Form fields go here */}
@@ -335,6 +346,64 @@ export default function HeartForm() {
               );
             }}
           />
+          <FormField
+  control={form.control}
+  name="Cholesterol"
+  render={({ field }) => {
+    return (
+      <FormItem>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <FormLabel style={{ display: "flex", alignItems: "center" }}>
+            <span>Cholesterol</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#5EABFC" // Change this to blue color
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              onClick={() => handleClickOpen(4)} // Change index as appropriate
+              style={{ marginLeft: "8px", cursor: "pointer" }}
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12" y2="8" />
+            </svg>
+          </FormLabel>
+          <Dialog open={openDialog[4]} onClose={() => handleClose(4)}>
+            <DialogTitle>Cholesterol*</DialogTitle>
+            <DialogContent>
+              This indicates whether the individual's cholesterol level is
+              greater than 200 mg/dl. It is represented as a binary value
+              where 1 stands for true and 0 stands for false.
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => handleClose(4)}>Close</Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+
+        <FormControl>
+          <Input
+            placeholder=""
+            type="number"
+            {...field}
+            onChange={(e) =>
+              form.setValue(
+                "Cholesterol",
+                 parseInt(e.target.value) 
+              )
+            }
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    );
+  }}
+/>
 
           <FormField
             control={form.control}
@@ -638,7 +707,7 @@ export default function HeartForm() {
 
                   <Select
                     onValueChange={(value) =>
-                      form.setValue("ChestPainType_0", parseInt(value))
+                      form.setValue("ChestPainType_1", parseInt(value))
                     }
                   >
                     <FormControl>
@@ -794,3 +863,7 @@ export default function HeartForm() {
     </main>
   );
 }
+
+
+
+
